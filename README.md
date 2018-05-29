@@ -1,3 +1,4 @@
+![YAB](https://memegenerator.net/img/instances/81896382/screw-you-guys-ill-make-my-own-blockchain-with-blackjack-and-hookers.jpg)
 Yet another blockchain, for learning purpose.
 
 ## Reference

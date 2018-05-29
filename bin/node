@@ -7,8 +7,8 @@ require 'ruby_coin'
 require 'pp'
 
 @blockchain = RubyCoin::Blockchain.new
-@blockchain.first({ test: 1000 })
-@blockchain.next({ test: 2 })
+@blockchain.first({ blackjack: true })
+@blockchain.next({ hookers: true })
 b2 = @blockchain.next({ test: 3 })
 @blockchain.next({ test: 4 }, b2)
 
