@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.push File.expand_path('../lib', __dir__)
+
+require 'ruby_coin'
+require 'pp'
+
+@blockchain = RubyCoin::Blockchain.new
+@blockchain.first({ test: 1000 })
+@blockchain.next({ test: 2 })
+b2 = @blockchain.next({ test: 3 })
+@blockchain.next({ test: 4 }, b2)
+
+pp @blockchain
+binding.pry
