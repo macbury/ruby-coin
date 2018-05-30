@@ -7,6 +7,6 @@ module RubyCoin
     Index = Integer.constrained(gt: 0)
     Nonce = Integer.constrained(gt: 0)
     Difficulty = Integer.constrained(gt: 1)
-    BlockId = String.constrained(format: /\A[a-z0-9]{64}\z/i)
+    BlockId = String.constrained(format: /\A[a-z0-9]{128}\z/i)
   end
 end

@@ -3,10 +3,9 @@
 module RubyCoin
   class Block < Dry::Struct
     transform_keys(&:to_sym)
-    # How difficult is proof of concept
-    DIFFICULTY = 2
+
     # Hash of genesis block
-    GENESIS_BLOCK_HASH = ('0' * 64).freeze
+    GENESIS_BLOCK_HASH = ('0' * 128).freeze
     # @!attribute [r] index
     # @return [Integer] block index
     attribute :index, Types::Index
@@ -25,9 +24,6 @@ module RubyCoin
     # @!attribute [r] prev_hash
     # @return [String] hash to previosus block in chain
     attribute :prev_hash, Types::BlockId
-    # @!attribute [r] difficulty
-    # @return [Integer] difficulty of calculating proof of work
-    attribute :difficulty, Types::Difficulty.default(DIFFICULTY)
 
     def hash
       attributes[:hash]
