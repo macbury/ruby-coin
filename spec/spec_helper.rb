@@ -2,6 +2,7 @@
 
 $LOAD_PATH.push File.expand_path('../lib', __dir__)
 
+require 'rspec/dry/struct'
 require 'timecop'
 require 'ruby_coin'
 

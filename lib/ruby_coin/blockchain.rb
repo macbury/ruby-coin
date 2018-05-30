@@ -2,37 +2,52 @@
 
 module RubyCoin
   class Blockchain
-    attr_reader :storage, :miner
+    include Enumerable
 
-    def initialize(storage = [])
-      @storage = storage
-      @miner = Miner.new
+    attr_reader :chain, :miner, :hasher
+
+    def initialize
+      @chain = Chain.new
+      @hasher = Hasher.new
+      @miner = Miner.new(hasher: hasher)
     end
 
-    # Add without verification, block to chain
-    def <<(block)
-      @storage << block
+    # Search block by its index
+    # @return [Block]
+    def find_by_index(index)
+      chain[index]
     end
 
-    # Generate genesis block
-    # @param data [Hash] transaction data, added to chain
-    # @return [Block] first block in chain
-    def first(data)
-      throw 'Blockchain is not empty....' unless @storage.empty?
-      push(data, Block::GENESIS_BLOCK_HASH)
+    # Search block by its hash
+    # @return [Block]
+    def find_by_hash(hash)
+      chain.find { |block| block.hash == hash }
     end
 
-    # Generate next block in chain
-    # @param data [Hash] transaction data
-    def next(data, prev = nil)
-      prev_hash = (prev || @storage[-1]).hash
-      push(data, prev_hash)
+    def each
+      chain.each { |block| yield block }
+    end
+
+    # Add data to chain, and compute its values
+    # @param data [Hash] data added to blockchain
+    # @return [Block] created block
+    def <<(data)
+      if data.class >= Block
+        @chain << data # check if valid by computing hash of attributes
+      elsif @chain.empty?
+        mine(data, Block::GENESIS_BLOCK_HASH)
+      else
+        mine(data, chain.last.hash)
+      end
     end
 
     def broken?
-      storage.each_with_index do |block, index|
-        next if index.zero? && block.after?(Block::GENESIS_BLOCK_HASH)
-        next if block.after?(storage[index - 1].hash)
+      prev_block = nil
+      chain.each do |block|
+        if (prev_block.nil? || block.after?(prev_block)) && block.hash == hasher.calculate(block.to_h.except(:hash))
+          prev_block = block
+          next
+        end
         return true
       end
       false
@@ -40,17 +55,19 @@ module RubyCoin
 
     private
 
-    def push(data, prev_hash)
-      time = Time.now
-      hash, nonce = miner.calculate(data: data, prev_hash: prev_hash, time: time)
+    def mine(data, prev_hash)
+      time = Time.now.utc
+      index = chain.max_index + 1
+      hash, nonce = miner.calculate(data: data, prev_hash: prev_hash, time: time, index: index)
       block = Block.new(
         hash: hash,
         nonce: nonce,
         time: time,
         data: data,
-        prev_hash: prev_hash
+        prev_hash: prev_hash,
+        index: index
       )
-      @storage << block
+      @chain << block
       block
     end
   end

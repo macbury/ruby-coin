@@ -6,11 +6,29 @@ $LOAD_PATH.push File.expand_path('../lib', __dir__)
 require 'ruby_coin'
 require 'pp'
 
+@storage = RubyCoin::Storage.new
+
 @blockchain = RubyCoin::Blockchain.new
-@blockchain.first({ blackjack: true })
-@blockchain.next({ hookers: true })
-b2 = @blockchain.next({ test: 3 })
-@blockchain.next({ test: 4 }, b2)
+#@storage.sync(@blockchain)
+
+@blockchain << { blackjack: true }
+@blockchain << { hookers: true }
+@blockchain << { test: 3 }
+@blockchain << { test: 4 }
+@blockchain << { multi_level_db: { a: { b: { c: 'World' } } } }
+
+#@storage.store(@blockchain)
+
+
+
+DB.create_table :blocks do
+  primary_key :index
+  String :hash
+  String :prev_hash
+  Integer :nonce
+  Time :time
+  String :data
+end
 
 pp @blockchain
 binding.pry

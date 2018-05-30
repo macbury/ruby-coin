@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.push File.expand_path('../lib', __dir__)
+
+require 'ruby_coin'
+require 'pp'
+
+@blockchain = RubyCoin::Blockchain.new
+
+puts "Broken=" + @blockchain.broken?.inspect

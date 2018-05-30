@@ -1,3 +1,6 @@
 tmp/rspec_examples.txt
 tmp/**/*
 *.log
+data/**/*
+doc/**/
+.yardoc

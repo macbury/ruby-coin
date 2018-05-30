@@ -1,50 +1,43 @@
 # frozen_string_literal: true
 
 module RubyCoin
-  class Block
+  class Block < Dry::Struct
+    transform_keys(&:to_sym)
     # How difficult is proof of concept
     DIFFICULTY = 4
     # Hash of genesis block
-    GENESIS_BLOCK_HASH = ('0'*64).freeze
-    # @!attribute [r] version
-    # @return [Hash] current block data
-    attr_reader :data
-    # @!attribute [r] nonce
-    # @return [Integer] winning number used to calculate proof of work
-    attr_reader :nonce
-    # @!attribute [r] time
-    # @return [Time] time of finding proof of work
-    attr_reader :time
-    # @!attribute [r] prev_hash
-    # @return [String] hash to previosus block in chain
-    attr_reader :prev_hash
-    # @!attribute [r] difficult
-    # @return [Integer] difficulty of calculating proof of work
-    attr_reader :difficulty
+    GENESIS_BLOCK_HASH = ('0' * 64).freeze
+    # @!attribute [r] index
+    # @return [Integer] block index
+    attribute :index, Types::Index
     # @!attribute [r] hash
     # @return [String] hash or id of current block based on its content
-    attr_reader :hash
+    attribute :hash, Types::BlockId
+    # @!attribute [r] version
+    # @return [Hash] current block data
+    attribute :data, Types::Strict::Hash
+    # @!attribute [r] nonce
+    # @return [Integer] winning number used to calculate proof of work
+    attribute :nonce, Types::Nonce
+    # @!attribute [r] time
+    # @return [Time] time of finding proof of work
+    attribute :time, Types::Strict::Time
+    # @!attribute [r] prev_hash
+    # @return [String] hash to previosus block in chain
+    attribute :prev_hash, Types::BlockId
+    # @!attribute [r] difficulty
+    # @return [Integer] difficulty of calculating proof of work
+    attribute :difficulty, Types::Difficulty.default(DIFFICULTY)
 
-    def initialize(data:, prev_hash:, nonce: nil, time: nil, difficulty: DIFFICULTY, hash:)
-      @data = data
-      @difficulty = difficulty
-      @prev_hash = prev_hash
-      @hash = hash
-      @time = time
-      @nonce = nonce
+    def hash
+      attributes[:hash]
     end
 
     # Check if this block is valid, and appears after prev block
-    # @param prev_block_hash [String] previosus hash
+    # @param prev_block [Block] previosus block
     # @return [Boolean] true if is valid
-    def after?(prev_block_hash)
-      prev_block_hash == prev_hash
-    end
-
-    # Return serialized data
-    # @return [BSON::ByteBuffer] bsoned data
-    def serialized_data
-      data.to_bson
+    def after?(prev_block)
+      (index - prev_block.index) == 1 && prev_block.time <= time && prev_block.hash == prev_hash
     end
 
     # Return hash representation of block
@@ -54,6 +47,8 @@ module RubyCoin
         data: data,
         nonce: nonce,
         time: time,
+        hash: hash,
+        index: index,
         prev_hash: prev_hash
       }
     end
@@ -62,6 +57,10 @@ module RubyCoin
     # @return [BSON::ByteBuffer] bsoned block
     def to_bson
       to_h.to_bson
+    end
+
+    def self.from_bson(data)
+      new(BSON::Document.from_bson(BSON::ByteBuffer.new(data)))
     end
   end
 end

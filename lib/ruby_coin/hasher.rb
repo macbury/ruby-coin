@@ -3,8 +3,8 @@
 module RubyCoin
   class Hasher
     # something, something use CUDA here
-    def calculate(nonce:, time:, difficulty:, prev_hash:, serialized_data:)
-      Digest::SHA256.hexdigest("#{nonce}/#{time.to_i}/#{difficulty}/#{prev_hash}/#{serialized_data.to_s}")
+    def calculate(nonce:, time:, prev_hash:, data:, index:)
+      Digest::SHA256.hexdigest("#{index}/#{nonce}/#{time.to_i}/#{prev_hash}/#{data.to_json}")
     end
   end
 end
