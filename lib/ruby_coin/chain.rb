@@ -7,6 +7,7 @@ module RubyCoin
     def initialize
       Sequel.default_timezone = :utc
       @db = Sequel.connect('sqlite://data/blockchain.db')
+      @db.logger = Logger.new($stdout)
       begin
         create_tables
       rescue

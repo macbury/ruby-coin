@@ -4,7 +4,7 @@ module RubyCoin
   class Block < Dry::Struct
     transform_keys(&:to_sym)
     # How difficult is proof of concept
-    DIFFICULTY = 4
+    DIFFICULTY = 2
     # Hash of genesis block
     GENESIS_BLOCK_HASH = ('0' * 64).freeze
     # @!attribute [r] index

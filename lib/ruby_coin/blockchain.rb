@@ -44,7 +44,7 @@ module RubyCoin
     def broken?
       prev_block = nil
       chain.each do |block|
-        if (prev_block.nil? || block.after?(prev_block)) && block.hash == hasher.calculate(block.to_h.except(:hash))
+        if (prev_block.nil? || block.after?(prev_block)) && hasher.valid?(block)
           prev_block = block
           next
         end

@@ -7,6 +7,6 @@ require 'ruby_coin'
 require 'pp'
 @blockchain = RubyCoin::Blockchain.new
 
-100.times do |index|
-  @blockchain << { index: index }
+loop do
+  @blockchain << { index: 's' }
 end

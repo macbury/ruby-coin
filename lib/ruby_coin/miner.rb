@@ -11,15 +11,15 @@ module RubyCoin
     end
 
     def calculate(data:, prev_hash:, time:, index:)
-      nonce = 0
+      nonce = 1
+      @hasher.with(
+        time: time,
+        data: data,
+        prev_hash: prev_hash,
+        index: index
+      )
       loop do
-        hash = @hasher.calculate(
-          nonce: nonce,
-          time: time,
-          data: data,
-          prev_hash: prev_hash,
-          index: index
-        )
+        hash = @hasher.calculate(nonce: nonce)
 
         return [hash, nonce] if hash.start_with?(difficulty_prefix)
         nonce += 1
