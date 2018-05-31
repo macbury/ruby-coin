@@ -7,18 +7,6 @@ module RubyCoin
     option :chain, default: -> { Chain.new }
     option :hasher, default: -> { Hasher.new }
 
-    # Search block by its index
-    # @return [Block]
-    def find_by_index(index)
-      chain[index]
-    end
-
-    # Search block by its hash
-    # @return [Block]
-    def find_by_hash(hash)
-      chain.find { |block| block.hash == hash }
-    end
-
     def each
       chain.each { |block| yield block }
     end

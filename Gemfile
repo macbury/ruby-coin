@@ -3,7 +3,6 @@
 source 'http://rubygems.org'
 
 gem 'activesupport'
-gem 'bson', '~> 4.3'
 gem 'dry-initializer'
 gem 'dry-struct'
 gem 'dry-validation'

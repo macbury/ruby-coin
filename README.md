@@ -77,8 +77,5 @@ pp @blockchain
 * https://medium.com/programmers-blockchain/create-simple-blockchain-java-tutorial-from-scratch-6eeed3cb03fa
 * https://bigishdata.com/2017/10/17/write-your-own-blockchain-part-1-creating-storing-syncing-displaying-mining-and-proving-work/
 * https://medium.com/programmers-blockchain/creating-your-first-blockchain-with-java-part-2-transactions-2cdac335e0ce
-
-
-
-
-https://blockchain.info/pl/block/00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048
+* https://jeiwan.cc/posts/building-blockchain-in-go-part-1/
+* https://blockchain.info/pl/block/00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048

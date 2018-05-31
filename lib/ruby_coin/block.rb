@@ -63,7 +63,6 @@ module RubyCoin
     # @param index [Integer] block index
     # @return [Integer] difficlulty for PoW
     def self.difficulty_for(index)
-      binding.pry
       4 #TODO: add some logic here
     end
   end
