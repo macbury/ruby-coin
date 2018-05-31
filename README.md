@@ -2,6 +2,8 @@
 
 Yet another blockchain, for learning purpose.
 
+[ ![Codeship Status for macbury/ruby-coin](https://app.codeship.com/projects/28f4b9d0-4725-0136-3dd8-2e579038a130/status?branch=master)](https://app.codeship.com/projects/292249)
+
 ## Mining
 
 To start mining random blocks
