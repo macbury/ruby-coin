@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
 RSpec.describe RubyCoin::Blockchain do
-  subject { described_class.new }
+  let(:chain) { RubyCoin::Chain.new({ database_url: 'sqlite://data/blockchain.test.db' }) }
+  before { chain.clear }
+  before { allow(RubyCoin::Block).to receive(:difficulty_for).and_return(2) }
+
+  subject { described_class.new(chain: chain) }
+
   it 'build valid chain' do
     subject << { test: 1000 }
     subject << { test: 2 }

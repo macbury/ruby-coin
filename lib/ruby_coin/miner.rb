@@ -17,12 +17,14 @@ module RubyCoin
     def calculate(data:, prev_hash:, time:, index:)
       adjust_difficulty(index)
       nonce = 1
+
       @hasher.with(
         time: time,
         data: data,
         prev_hash: prev_hash,
         index: index
       )
+
       loop do
         hash = @hasher.calculate(nonce: nonce)
 

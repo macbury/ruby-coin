@@ -1,6 +1,23 @@
-![YAB](https://memegenerator.net/img/instances/81896382/screw-you-guys-ill-make-my-own-blockchain-with-blackjack-and-hookers.jpg)
+![YAB](./doc/bender.jpeg)
 
 Yet another blockchain, for learning purpose.
+
+## Mining
+
+To start mining random blocks
+```bash
+bin/mine
+```
+
+## Validate
+
+Validate blocks
+
+```bash
+bin/validate
+```
+
+## Example code
 
 ```ruby
 @blockchain = RubyCoin::Blockchain.new

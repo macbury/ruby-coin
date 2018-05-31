@@ -3,14 +3,9 @@
 module RubyCoin
   class Blockchain
     include Enumerable
-
-    attr_reader :chain, :miner, :hasher
-
-    def initialize
-      @chain = Chain.new
-      @hasher = Hasher.new
-      @miner = Miner.new(hasher: hasher)
-    end
+    extend Dry::Initializer
+    option :chain, default: -> { Chain.new }
+    option :hasher, default: -> { Hasher.new }
 
     # Search block by its index
     # @return [Block]
@@ -33,8 +28,8 @@ module RubyCoin
     # @return [Block] created block
     def <<(data)
       if data.class >= Block
-        @chain << data # check if valid by computing hash of attributes
-      elsif @chain.empty?
+        chain << data # check if valid by computing hash of attributes
+      elsif chain.empty?
         mine(data, Block::GENESIS_BLOCK_HASH)
       else
         mine(data, chain.last.hash)
@@ -44,13 +39,21 @@ module RubyCoin
     def broken?
       prev_block = nil
       chain.each do |block|
-        if (prev_block.nil? || block.after?(prev_block)) && hasher.valid?(block)
+        if (prev_block.nil? || block.after?(prev_block)) && validation.valid?(block)
           prev_block = block
           next
         end
         return true
       end
       false
+    end
+
+    def miner
+      @miner ||= Miner.new(hasher: hasher)
+    end
+
+    def validation
+      @validation ||= Validation.new(hasher: hasher)
     end
 
     private
@@ -67,7 +70,7 @@ module RubyCoin
         prev_hash: prev_hash,
         index: index
       )
-      @chain << block
+      chain << block
       block
     end
   end

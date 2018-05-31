@@ -5,7 +5,7 @@ module RubyCoin
     transform_keys(&:to_sym)
 
     # Hash of genesis block
-    GENESIS_BLOCK_HASH = ('0' * 128).freeze
+    GENESIS_BLOCK_HASH = ('0' * 64).freeze
     # @!attribute [r] index
     # @return [Integer] block index
     attribute :index, Types::Index
@@ -57,6 +57,14 @@ module RubyCoin
 
     def self.from_bson(data)
       new(BSON::Document.from_bson(BSON::ByteBuffer.new(data)))
+    end
+
+    # Calculate difficulty for block index
+    # @param index [Integer] block index
+    # @return [Integer] difficlulty for PoW
+    def self.difficulty_for(index)
+      binding.pry
+      4 #TODO: add some logic here
     end
   end
 end

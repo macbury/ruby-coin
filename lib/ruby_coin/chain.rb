@@ -3,16 +3,18 @@
 module RubyCoin
   class Chain
     include Enumerable
+    extend Dry::Initializer
+    option :database_url, default: -> { 'sqlite://data/blockchain.db' }
 
-    def initialize
+    def initialize(options)
+      super
       Sequel.default_timezone = :utc
-      @db = Sequel.connect('sqlite://data/blockchain.db')
-      @db.logger = Logger.new($stdout)
-      begin
-        create_tables
-      rescue
-        puts "Exists!"
-      end
+      @db = Sequel.connect(database_url)
+      create_tables
+    end
+
+    def clear
+      blocks.truncate
     end
 
     def each
@@ -61,7 +63,7 @@ module RubyCoin
     end
 
     def create_tables
-      @db.create_table :blocks do
+      @db.create_table? :blocks do
         primary_key :index
         String :hash, uniq: true, null: false
         String :prev_hash, null: false

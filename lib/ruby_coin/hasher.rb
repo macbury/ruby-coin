@@ -3,14 +3,7 @@
 module RubyCoin
   class Hasher
     def initialize
-      @digest = OpenSSL::Digest::SHA512.new
-    end
-
-    def valid?(block)
-      return false unless block.hash.start_with?('0' * Miner::INITIAL_DIFFICULTY)
-      with(block.to_h.except(:hash, :nonce))
-      hash = calculate(nonce: block.nonce)
-      block.hash == hash
+      @digest = OpenSSL::Digest::SHA256.new
     end
 
     def with(time:, prev_hash:, data:, index:)

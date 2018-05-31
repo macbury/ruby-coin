@@ -16,6 +16,7 @@ module RubyCoin
   autoload :Blockchain
   autoload :Chain
   autoload :Hasher
-  autoload :Storage
   autoload :Miner
+  autoload :Schema
+  autoload :Validation
 end

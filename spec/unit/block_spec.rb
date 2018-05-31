@@ -9,7 +9,6 @@ RSpec.describe RubyCoin::Block do
     it { is_expected.to have_attribute(:prev_hash) }
     it { is_expected.to have_attribute(:time) }
     it { is_expected.to have_attribute(:nonce) }
-    it { is_expected.to have_attribute(:difficulty) }
   end
 
   describe '#hash' do
