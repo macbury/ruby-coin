@@ -8,6 +8,7 @@ gem 'dry-struct'
 gem 'dry-validation'
 gem 'sequel'
 gem 'sqlite3'
+gem 'hanami-cli'
 
 group :development do
   gem 'pry'
