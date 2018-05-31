@@ -9,6 +9,7 @@ gem 'dry-validation'
 gem 'sequel'
 gem 'sqlite3'
 gem 'hanami-cli'
+gem 'terminal-table'
 
 group :development do
   gem 'pry'

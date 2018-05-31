@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+$LOAD_PATH.push File.expand_path('../lib', __dir__)
+
+require 'ruby_coin'
+require 'ruby_coin/cli'
+
+Hanami::CLI.new(RubyCoin::Cli).call

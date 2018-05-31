@@ -36,6 +36,10 @@ module RubyCoin
       false
     end
 
+    def valid?
+      !broken?
+    end
+
     def miner
       @miner ||= Miner.new(hasher: hasher)
     end
