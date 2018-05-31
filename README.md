@@ -2,14 +2,7 @@
 
 Yet another blockchain, for learning purpose.
 
-[ ![Codeship Status for macbury/ruby-coin](https://app.codeship.com/projects/28f4b9d0-4725-0136-3dd8-2e579038a130/status?branch=master)](https://app.codeship.com/projects/292249)
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/1733e5fca1806b0da660/maintainability)](https://codeclimate.com/github/macbury/ruby-coin/maintainability)
-
-[![GitHub license](https://img.shields.io/github/license/macbury/ruby-coin.svg)](https://github.com/macbury/ruby-coin/blob/master/LICENSE)
-
-[![GitHub license](https://img.shields.io/github/license/macbury/ruby-coin.svg)](https://github.com/macbury/ruby-coin/blob/master/LICENSE)
-
+[ ![Codeship Status for macbury/ruby-coin](https://app.codeship.com/projects/28f4b9d0-4725-0136-3dd8-2e579038a130/status?branch=master)](https://app.codeship.com/projects/292249) [![Maintainability](https://api.codeclimate.com/v1/badges/1733e5fca1806b0da660/maintainability)](https://codeclimate.com/github/macbury/ruby-coin/maintainability) [![GitHub license](https://img.shields.io/github/license/macbury/ruby-coin.svg)](https://github.com/macbury/ruby-coin/blob/master/LICENSE)
 
 ## Cli
 
