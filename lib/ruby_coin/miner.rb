@@ -6,6 +6,7 @@ module RubyCoin
 
     autoload :CalculateProofOfWork
     autoload :Worker
+    autoload :Workers
     autoload :Master
   end
 end

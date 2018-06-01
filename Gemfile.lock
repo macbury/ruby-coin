@@ -54,7 +54,6 @@ GEM
     ice_nine (0.11.2)
     method_source (0.9.0)
     minitest (5.11.3)
-    parallel (1.12.1)
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -97,7 +96,6 @@ DEPENDENCIES
   dry-struct
   dry-validation
   hanami-cli
-  parallel
   pry
   rspec
   rspec-dry-struct

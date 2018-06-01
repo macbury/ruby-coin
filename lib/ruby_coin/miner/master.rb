@@ -7,10 +7,11 @@ module RubyCoin
       extend Dry::Initializer
       option :chain
 
+      MAX_NONCE = 2**32 - 1
+
       def initialize(*)
         super
-
-        @workers = Array.new(4) { CalculateProofOfWork.new }
+        @workers = Workers.new
       end
 
       # Add data to chain, and compute its values
@@ -27,14 +28,25 @@ module RubyCoin
 
       attr_reader :workers
 
+      def hasher
+        @hasher ||= Crypto::Hasher.new
+      end
+
       def calculate_proof_of_work(data:, prev_hash:, time:, index:)
-        workers.first.perform_async(
+        nonce = 1
+        difficulty_prefix = '0' * Block.difficulty_for(index)
+        hasher.prepare(
           data: data,
           prev_hash: prev_hash,
           time: time,
-          index: index,
-          ranges: (0..1000)
+          index: index
         )
+
+        while nonce < MAX_NONCE
+          hash = hasher.calculate(nonce: nonce)
+          return [hash, nonce] if hash.start_with?(difficulty_prefix)
+          nonce += 1
+        end
       end
 
       def find_next_block(data, prev_hash)
@@ -42,10 +54,6 @@ module RubyCoin
         index = chain.max_index + 1
         hash, nonce = calculate_proof_of_work(data: data, prev_hash: prev_hash, time: time, index: index)
 
-        build_block(hash: hash, nonce: nonce) if hash
-      end
-
-      def build_block(hash:, nonce:)
         Block.new(
           hash: hash,
           nonce: nonce,

@@ -10,7 +10,7 @@ module RubyCoin
         result = Schema::Block.call(block.to_h)
         return false unless result.success?
 
-        hasher.with(block.to_h.except(:hash, :nonce))
+        hasher.prepare(block.to_h.except(:hash, :nonce))
         hash = hasher.calculate(nonce: block.nonce)
         block.hash == hash
       end
