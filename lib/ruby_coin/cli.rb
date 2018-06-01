@@ -11,10 +11,11 @@ module RubyCoin
     autoload :Mine
     autoload :Print
     autoload :Reset
+    autoload :Genesis
 
     register 'validate', Validate
     register 'mine', Mine
     register 'print', Print
-    register 'reset', Reset
+    register 'genesis', Genesis
   end
 end

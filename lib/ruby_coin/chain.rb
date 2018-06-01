@@ -25,7 +25,7 @@ module RubyCoin
 
     def <<(block)
       record = block.to_h
-      record[:data] = record[:data].to_json
+      record[:transactions] = record[:transactions].to_json
       blocks.insert(record)
     end
 
@@ -58,7 +58,7 @@ module RubyCoin
     private
 
     def build_block(record)
-      record[:data] = JSON.parse(record[:data]).symbolize_keys
+      record[:transactions] = JSON.parse(record[:transactions]).symbolize_keys
       RubyCoin::Block.new(record)
     end
 
@@ -69,7 +69,7 @@ module RubyCoin
         String :prev_hash, null: false
         Integer :nonce, null: false
         Time :time, null: false
-        String :data, null: false
+        String :transactions, null: false
       end
     end
 

@@ -5,5 +5,8 @@ module RubyCoin
     extend ActiveSupport::Autoload
 
     autoload :Wallet
+    autoload :TxInput
+    autoload :TxOutput
+    autoload :Transaction
   end
 end

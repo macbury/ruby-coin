@@ -6,27 +6,44 @@ module RubyCoin
       include Enumerable
       extend Dry::Initializer
       option :chain
+      option :wallet, default: -> { Ledger::Wallet.generate }
 
       MAX_NONCE = 2**32 - 1
 
-      def initialize(*)
-        super
-        @workers = Workers.new
+      # Generate genesis block
+      # @return [Block]
+      def genesis_block
+        find_next_block([
+          Ledger::Transaction.new_coinbase(wallet.public_key)
+        ], Block::GENESIS_BLOCK_HASH)
       end
 
       # Add data to chain, and compute its values
-      # @param data [Hash] data added to blockchain
+      # @param transactions [Array<Ledger::Transaction>] transactions added to blockchain
       # @return [Block] created block
-      def <<(data)
-        return find_next_block(data, Block::GENESIS_BLOCK_HASH) if chain.empty?
-        find_next_block(data, chain.last.hash)
+      def mine(transactions)
+        find_next_block(transactions, chain.last.hash)
       end
 
-      alias_method :mine, :<<
+      alias_method :<<, :mine
 
       private
 
-      attr_reader :workers
+      def find_next_block(transactions, prev_hash)
+        time = Time.now.utc
+        transactions_hash = transactions.map(&:id).join
+        index = chain.max_index + 1
+        hash, nonce = calculate_proof_of_work(data: transactions_hash, prev_hash: prev_hash, time: time, index: index)
+
+        Block.new(
+          hash: hash,
+          nonce: nonce,
+          time: time,
+          prev_hash: prev_hash,
+          index: index,
+          transactions: transactions
+        )
+      end
 
       def hasher
         @hasher ||= Crypto::Hasher.new
@@ -36,10 +53,10 @@ module RubyCoin
         nonce = 1
         difficulty_prefix = '0' * Block.difficulty_for(index)
         hasher.prepare(
-          data: data,
           prev_hash: prev_hash,
           time: time,
-          index: index
+          index: index,
+          data: data
         )
 
         while nonce < MAX_NONCE
@@ -47,21 +64,6 @@ module RubyCoin
           return [hash, nonce] if hash.start_with?(difficulty_prefix)
           nonce += 1
         end
-      end
-
-      def find_next_block(data, prev_hash)
-        time = Time.now.utc
-        index = chain.max_index + 1
-        hash, nonce = calculate_proof_of_work(data: data, prev_hash: prev_hash, time: time, index: index)
-
-        Block.new(
-          hash: hash,
-          nonce: nonce,
-          time: time,
-          data: data,
-          prev_hash: prev_hash,
-          index: index
-        )
       end
     end
   end
