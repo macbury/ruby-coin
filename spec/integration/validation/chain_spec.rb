@@ -7,7 +7,7 @@ RSpec.describe RubyCoin::Validation::Chain do
   before { allow(RubyCoin::Block).to receive(:difficulty_for).and_return(2) }
 
   subject { described_class.new }
-  let(:miner) { RubyCoin::Miner.new(chain: chain) }
+  let(:miner) { RubyCoin::Miner::Master.new(chain: chain) }
 
   it 'build valid chain' do
     10.times { |index| chain << miner.mine(test: index) }
