@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe RubyCoin::Keys do
+RSpec.describe RubyCoin::Crypto::Keys do
   describe '#generate' do
     subject { described_class.generate }
 

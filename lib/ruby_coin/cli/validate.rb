@@ -3,12 +3,11 @@ module RubyCoin
   module Cli
     class Validate < Hanami::CLI::Command
       desc 'full blockchain validation'
-
       def call(*)
-        chain = RubyCoin::Chain.new({ database_url: 'sqlite://data/blockchain.dev.db' })
-        blockchain = RubyCoin::Blockchain.new(chain: chain)
+        chain = RubyCoin::Chain.new(database_url: 'sqlite://data/blockchain.dev.db')
+        validation = RubyCoin::Validation::Chain.new
 
-        if blockchain.valid?
+        if validation.valid?(chain)
           puts 'Blockchain is valid'
         else
           puts 'Blockchain is broken'

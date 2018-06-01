@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module RubyCoin
-  module Validation
+  module Crypto
     extend ActiveSupport::Autoload
 
-    autoload :Block
-    autoload :Chain
+    autoload :Keys
+    autoload :Hasher
   end
 end

@@ -3,10 +3,9 @@ module RubyCoin
   module Cli
     class Print < Hanami::CLI::Command
       desc 'print all blocks'
-
       def call(*)
-        chain = RubyCoin::Chain.new({ database_url: 'sqlite://data/blockchain.dev.db' })
-        
+        chain = RubyCoin::Chain.new(database_url: 'sqlite://data/blockchain.dev.db')
+
         Terminal::Table.new do |table|
           table << ['Index', 'Hash', 'Nonce', 'Time', 'Data']
           table.add_separator

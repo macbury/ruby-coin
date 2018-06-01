@@ -3,13 +3,15 @@
 source 'http://rubygems.org'
 
 gem 'activesupport'
+gem 'daemons'
 gem 'dry-initializer'
 gem 'dry-struct'
 gem 'dry-validation'
+gem 'hanami-cli'
 gem 'sequel'
 gem 'sqlite3'
-gem 'hanami-cli'
 gem 'terminal-table'
+gem 'ruby-progressbar'
 
 group :development do
   gem 'pry'
