@@ -12,9 +12,6 @@ module RubyCoin
     # @!attribute [r] hash
     # @return [String] hash or id of current block based on its content
     attribute :hash, Types::BlockId
-    # @!attribute [r] transactions
-    # @return [Array<Transaction>] list of transactions
-    attribute :transactions, Types::Strict::Array.of(Ledger::Transaction)
     # @!attribute [r] nonce
     # @return [Integer] winning number used to calculate proof of work
     attribute :nonce, Types::Nonce
@@ -24,6 +21,9 @@ module RubyCoin
     # @!attribute [r] prev_hash
     # @return [String] hash to previosus block in chain
     attribute :prev_hash, Types::BlockId
+    # @!attribute [r] updates
+    # @return [Social::Update] list of updates in network
+    attribute :updates, Types::Strict::Array.of(Social::Update)
 
     def hash
       attributes[:hash]

@@ -19,6 +19,6 @@ module RubyCoin
   autoload :Miner
   autoload :Schema
   autoload :Validation
-
-  autoload :Ledger
+  autoload :Social
+  autoload :Application
 end

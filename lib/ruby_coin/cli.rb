@@ -7,6 +7,7 @@ module RubyCoin
     extend ActiveSupport::Autoload
     extend Hanami::CLI::Registry
 
+    autoload :Base
     autoload :Validate
     autoload :Mine
     autoload :Print

@@ -1,14 +1,13 @@
 # frozen_string_literal: true
 module RubyCoin
   module Cli
-    class Genesis < Hanami::CLI::Command
+    class Genesis < Base
       desc 'Create new block chain and initialize genesis block'
       def call(*)
-        chain = RubyCoin::Chain.new(database_url: 'sqlite://data/blockchain.dev.db')
-        miner = RubyCoin::Miner::Master.new(chain: chain)
+        miner = RubyCoin::Miner::Master.new(chain: application.chain)
 
-        chain.clear
-        chain << miner.genesis_block
+        application.chain.clear
+        application.chain << miner.genesis_block
       end
     end
   end

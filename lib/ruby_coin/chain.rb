@@ -4,14 +4,7 @@ module RubyCoin
   class Chain
     include Enumerable
     extend Dry::Initializer
-    option :database_url, default: -> { 'sqlite://data/blockchain.db' }
-
-    def initialize(options)
-      super
-      Sequel.default_timezone = :utc
-      @db = Sequel.connect(database_url)
-      create_tables
-    end
+    option :database
 
     def clear
       blocks.truncate
@@ -24,8 +17,8 @@ module RubyCoin
     end
 
     def <<(block)
-      record = block.to_h
-      record[:transactions] = record[:transactions].to_json
+      record = block.to_h.except(:updates)
+      #record[:transactions] = record[:transactions].to_json
       blocks.insert(record)
     end
 
@@ -58,23 +51,25 @@ module RubyCoin
     private
 
     def build_block(record)
-      record[:transactions] = JSON.parse(record[:transactions]).symbolize_keys
+      #record[:transactions] = JSON.parse(record[:transactions]).symbolize_keys
       RubyCoin::Block.new(record)
     end
 
     def create_tables
-      @db.create_table? :blocks do
+      database.create_table? :blocks do
         primary_key :index
         String :hash, uniq: true, null: false
         String :prev_hash, null: false
         Integer :nonce, null: false
         Time :time, null: false
-        String :transactions, null: false
       end
     end
 
     def blocks
-      @blocks ||= @db[:blocks]
+      @blocks ||= begin
+        create_tables
+        database[:blocks]
+      end
     end
   end
 end
