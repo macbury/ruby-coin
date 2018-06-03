@@ -5,6 +5,21 @@ module RubyCoin
     # Elliptic Curve Digital Signature
     module Keys
       ALGORITHM = 'prime256v1'
+
+      # Generate address used in netowrk
+      # @param public_key [String] public key
+      # @return [String] address
+      def self.address(public_key)
+        pub_key_sha256 = Digest::SHA256.digest([public_key].pack("H*"))
+        pub_key_hash = Digest::RMD160.digest(pub_key_sha256)
+
+        first_hash  = Digest::SHA256.digest(pub_key_hash)
+        second_hash = Digest::SHA256.digest(first_hash)
+
+        full_payload = [pub_key_hash, second_hash[0, 4]].join
+        Base58.binary_to_base58(full_payload)
+      end
+
       # Generate public-private key pair using ECDSA - prime256v1 curve
       # @return [Hash] return keys
       def self.generate
@@ -12,7 +27,7 @@ module RubyCoin
         key.generate_key
         {
           private_key: format(key.private_key),
-          public_key: format(key.public_key.to_bn)
+          public_key: format(key.public_key)
         }
       end
 

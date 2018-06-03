@@ -3,6 +3,7 @@
 source 'http://rubygems.org'
 
 gem 'activesupport'
+gem 'base58'
 gem 'daemons'
 gem 'dry-initializer'
 gem 'dry-struct'

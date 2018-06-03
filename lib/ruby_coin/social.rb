@@ -4,8 +4,8 @@ module RubyCoin
   module Social
     extend ActiveSupport::Autoload
 
-    autoload :PublicAccount, './social/account'
-    autoload :PrivateAccount, './social/account'
+    autoload :PublicAccount
+    autoload :PrivateAccount
     autoload :Transaction
     autoload :Update
   end

@@ -2,21 +2,6 @@
 
 module RubyCoin
   module Social
-    class PublicAccount < Dry::Struct
-      transform_keys(&:to_sym)
-
-      attribute :public_key, Types::PublicKey
-      attribute :name, Types::Username
-
-      # Check if data was created by this account
-      # @param signature [String] signature for data
-      # @param data [String] data to verify
-      # @return [Boolean]
-      def verify(signature, data)
-        Crypto::Keys.verify(signature, public_key, data)
-      end
-    end
-
     class PrivateAccount < PublicAccount
       attribute :private_key, Types::PrivateKey
 
