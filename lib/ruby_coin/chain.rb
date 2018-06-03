@@ -18,7 +18,7 @@ module RubyCoin
 
     def <<(block)
       record = block.to_h.except(:updates)
-      #record[:transactions] = record[:transactions].to_json
+      record[:actions] = record[:actions].to_json
       blocks.insert(record)
     end
 
@@ -48,11 +48,17 @@ module RubyCoin
       blocks.max(:index) || 0
     end
 
+    # Next block index
+    # @return [Integer]
+    def next_index
+      max_index + 1
+    end
+
     private
 
     def build_block(record)
-      #record[:transactions] = JSON.parse(record[:transactions]).symbolize_keys
-      RubyCoin::Block.new(record)
+      record[:actions] = JSON.parse(record[:actions])
+      Block.new(record)
     end
 
     def create_tables
@@ -60,8 +66,10 @@ module RubyCoin
         primary_key :index
         String :hash, uniq: true, null: false
         String :prev_hash, null: false
+        String :actions, null: false
         Integer :nonce, null: false
         Time :time, null: false
+        String
       end
     end
 

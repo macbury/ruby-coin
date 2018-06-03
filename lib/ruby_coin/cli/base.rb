@@ -5,6 +5,10 @@ module RubyCoin
       def application
         @application ||= Application.new
       end
+
+      def chain
+        application.chain
+      end
     end
   end
 end

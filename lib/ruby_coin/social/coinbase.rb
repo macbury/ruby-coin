@@ -2,11 +2,9 @@
 
 module RubyCoin
   module Social
-    class Transaction < Action
+    class Coinbase < Action
       attribute :amount, Types::Value
-      attribute :sender, Types::PublicKey
       attribute :recipient, Types::Address
-      attribute :signature, Types::Strict::String
     end
   end
 end

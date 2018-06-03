@@ -4,10 +4,14 @@ module RubyCoin
     class Genesis < Base
       desc 'Create new block chain and initialize genesis block'
       def call(*)
-        miner = RubyCoin::Miner::Master.new(chain: application.chain)
-
+        miner = Miner::Master.new(chain: application.chain)
+        account = Social::PrivateAccount.generate
+        action_builder = Social::ActionBuilder.new
         application.chain.clear
-        application.chain << miner.genesis_block
+        block = miner.genesis_block([
+          action_builder.coinbase(account.address)
+        ])
+        application.chain << block
       end
     end
   end

@@ -22,5 +22,9 @@ RSpec.describe RubyCoin::Social::PrivateAccount do
       it { expect(other_account.address).not_to eq(subject.address) }
       it { expect(other_account.verify(signature, data)).to eq(false) }
     end
+
+    context 'other data' do
+      it { expect(public_account.verify(signature, 'test2')).to eq(false) }
+    end
   end
 end

@@ -13,7 +13,7 @@ module RubyCoin
       required(:time).filled(:time?)
       required(:hash).filled(:str?)
       required(:prev_hash).filled(:str?)
-      required(:data).filled(:hash?)
+      required(:actions).filled(:array?)
 
       validate(hash: [:hash, :index]) do |hash, index|
         difficulty = RubyCoin::Block.difficulty_for(index)

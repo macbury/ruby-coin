@@ -11,26 +11,30 @@ module RubyCoin
 
       # Generate genesis block
       # @return [Block]
-      def genesis_block
-        find_next_block([], Block::GENESIS_BLOCK_HASH)
+      def genesis_block(actions)
+        find_next_block(actions: actions, prev_hash: Block::GENESIS_BLOCK_HASH)
       end
 
       # Add data to chain, and compute its values
       # @param updates [Array<Social::Update>] updates added to blockchain
       # @return [Block] created block
-      def mine(updates)
-        find_next_block(updates, chain.last.hash)
+      def mine(actions)
+        find_next_block(actions: actions, prev_hash: chain.last.hash)
       end
 
       alias_method :<<, :mine
 
       private
 
-      def find_next_block(updates, prev_hash)
+      def hasher
+        @hasher ||= Crypto::Hasher.new
+      end
+
+      def find_next_block(actions:, prev_hash:)
         time = Time.now.utc
-        #transactions_hash = transactions.map(&:id).join
-        index = chain.max_index + 1
-        hash, nonce = calculate_proof_of_work(data: 'transactions_hash', prev_hash: prev_hash, time: time, index: index)
+        index = chain.next_index
+        merkle_tree = Crypto::Merkle::Tree.new(actions.map { |action| action[:hash] })
+        hash, nonce = calculate_proof_of_work(data: merkle_tree.root.hash, prev_hash: prev_hash, time: time, index: index)
 
         Block.new(
           hash: hash,
@@ -38,12 +42,8 @@ module RubyCoin
           time: time,
           prev_hash: prev_hash,
           index: index,
-          updates: updates
+          actions: actions
         )
-      end
-
-      def hasher
-        @hasher ||= Crypto::Hasher.new
       end
 
       def calculate_proof_of_work(data:, prev_hash:, time:, index:)

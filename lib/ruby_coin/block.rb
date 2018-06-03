@@ -21,12 +21,18 @@ module RubyCoin
     # @!attribute [r] prev_hash
     # @return [String] hash to previosus block in chain
     attribute :prev_hash, Types::BlockId
-    # @!attribute [r] updates
-    # @return [Social::Update] list of updates in network
-    attribute :updates, Types::Strict::Array.of(Social::Update)
+    # @!attribute [r] actions
+    # @return [Social::Actions] list of actions performed in network
+    attribute :actions, Types::Actions
 
     def hash
       attributes[:hash]
+    end
+
+    # Returns merkle tree of block actions
+    # @return [Crypto::Merkle::Tree]
+    def merkle_tree
+      @merkle_tree ||= Crypto::Merkle::Tree.new(actions.map(&:hash))
     end
 
     # Check if this block is valid, and appears after prev block

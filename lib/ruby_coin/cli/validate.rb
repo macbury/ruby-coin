@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 module RubyCoin
   module Cli
-    class Validate < Hanami::CLI::Command
+    class Validate < Base
       desc 'full blockchain validation'
       def call(*)
-        chain = RubyCoin::Chain.new(database_url: 'sqlite://data/blockchain.dev.db')
         validation = RubyCoin::Validation::Chain.new
 
         if validation.valid?(chain)

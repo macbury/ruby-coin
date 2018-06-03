@@ -10,7 +10,7 @@ module RubyCoin
         result = Schema::Block.call(block.to_h)
         return false unless result.success?
 
-        hasher.prepare(block.to_h.except(:hash, :nonce))
+        hasher.prepare(block.to_h.except(:hash, :nonce, :actions).merge(data: block.merkle_tree.root.hash))
         hash = hasher.calculate(nonce: block.nonce)
         block.hash == hash
       end

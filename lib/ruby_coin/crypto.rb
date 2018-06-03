@@ -6,5 +6,6 @@ module RubyCoin
 
     autoload :Keys
     autoload :Hasher
+    autoload :Merkle
   end
 end
