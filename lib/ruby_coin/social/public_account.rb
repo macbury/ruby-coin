@@ -4,7 +4,7 @@ module RubyCoin
   module Social
     class PublicAccount < Dry::Struct
       transform_keys(&:to_sym)
-
+      
       attribute :public_key, Types::PublicKey
 
       # Check if data was created by this account
