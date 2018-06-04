@@ -5,26 +5,31 @@ module RubyCoin
     class Master
       include Enumerable
       extend Dry::Initializer
+      option :recipient
       option :chain
 
       MAX_NONCE = 2**32 - 1
 
       # Generate genesis block
       # @return [Block]
-      def genesis_block(actions)
-        find_next_block(actions: actions, prev_hash: Block::GENESIS_BLOCK_HASH)
+      def genesis_block
+        find_next_block(actions: coinbase, prev_hash: Block::GENESIS_BLOCK_HASH)
       end
 
       # Add data to chain, and compute its values
       # @param updates [Array<Social::Update>] updates added to blockchain
       # @return [Block] created block
       def mine(actions)
-        find_next_block(actions: actions, prev_hash: chain.last.hash)
+        find_next_block(actions: coinbase + actions, prev_hash: chain.last.hash)
       end
 
       alias_method :<<, :mine
 
       private
+
+      def coinbase
+        [Social::ActionBuilder.new.coinbase(recipient)]
+      end
 
       def hasher
         @hasher ||= Crypto::Hasher.new

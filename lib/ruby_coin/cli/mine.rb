@@ -5,10 +5,9 @@ module RubyCoin
       argument :recipient, required: true, desc: 'Address that receives coins for mined block'
       desc 'start mining random blocks'
       def call(recipient:)
-        miner = RubyCoin::Miner::Master.new(chain: application.chain)
-        action_builder = Social::ActionBuilder.new
+        miner = Miner::Master.new(chain: application.chain, recipient: recipient)
         loop do
-          block = miner.mine([action_builder.coinbase(recipient)])
+          block = miner.mine([])
           if block
             chain << block
             puts "New block: #{block.index} with #{block.hash}"
