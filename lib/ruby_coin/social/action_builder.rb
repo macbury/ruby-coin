@@ -8,7 +8,7 @@ module RubyCoin
       end
 
       def coinbase(recipient)
-        Coinbase.new(build(recipient: recipient, amount: 5, action: 'coinbase'))
+        Coinbase.new(build(recipient: recipient, amount: 3, action: 'coinbase'))
       end
 
       def transaction(recipient, amount)
@@ -27,7 +27,7 @@ module RubyCoin
         @data = data.clone.deep_symbolize_keys
         @data[:id] ||= SecureRandom.hex(3)
         @data[:sender] = private_account.public_key if private_account
-        @data[:hash] = Digest::SHA256.hexdigest(ordered_values(data))
+        @data[:hash] = Digest::SHA256.hexdigest(ordered_values(@data))
         @data[:signature] = private_account.sign(ordered_values(data.except(:sender))) if private_account
         @data
       end

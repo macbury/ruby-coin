@@ -11,5 +11,6 @@ module RubyCoin
     autoload :PrivateAccount
     autoload :Transaction
     autoload :Coinbase
+    autoload :Errors
   end
 end

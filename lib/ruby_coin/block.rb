@@ -3,7 +3,8 @@
 module RubyCoin
   class Block < Dry::Struct
     transform_keys(&:to_sym)
-
+    # Number of block from this block to be confirmed
+    CONFIRMATION_COUNT = 10
     # Hash of genesis block
     GENESIS_BLOCK_HASH = ('0' * 64).freeze
     # @!attribute [r] index
@@ -17,7 +18,7 @@ module RubyCoin
     attribute :nonce, Types::Nonce
     # @!attribute [r] time
     # @return [Time] time of finding proof of work
-    attribute :time, Types::Strict::Time
+    attribute :time, Types::Params::Time
     # @!attribute [r] prev_hash
     # @return [String] hash to previosus block in chain
     attribute :prev_hash, Types::BlockId
@@ -46,7 +47,7 @@ module RubyCoin
     # @param index [Integer] block index
     # @return [Integer] difficlulty for PoW
     def self.difficulty_for(index)
-      3 #TODO: add some logic here
+      5 #TODO: add some logic here
     end
   end
 end

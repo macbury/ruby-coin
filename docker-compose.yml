@@ -1,0 +1,12 @@
+node1:
+  build: .
+  ports:
+    - 7001:7000
+node2:
+  build: .
+  ports:
+    - 7002:7000
+node3:
+  build: .
+  ports:
+    - 7003:7000

@@ -20,16 +20,11 @@ module RubyCoin
     Action = Types::Strict::String.enum('transaction', 'coinbase')
 
     Actions = Types::Strict::Array.of(Social::Action).constructor do |actions|
-      actions.map do |action|
-        if action.is_a?(::Hash)
-          action.deep_symbolize_keys!
-          if action[:action] == 'coinbase'
-            Social::Coinbase.new(action)
-          else
-            Social::Action.new(action)
-          end
+      actions.map do |options|
+        if options.is_a?(::Hash)
+          Social::Action.build(options)
         else
-          action
+          options
         end
       end
     end

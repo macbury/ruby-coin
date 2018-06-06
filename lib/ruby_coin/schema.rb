@@ -2,6 +2,14 @@
 
 module RubyCoin
   module Schema
+    Alive = Dry::Validation.Schema do
+      required(:type).filled(:str?)
+      required(:time).filled(:str?)
+      optional(:index).maybe(:int?, gte?: 0)
+      optional(:hash).maybe(:str?)
+      optional(:prev_hash).maybe(:str?)
+    end
+
     Block = Dry::Validation.Schema do
       configure do
         def self.messages

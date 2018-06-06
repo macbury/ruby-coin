@@ -21,5 +21,8 @@ module RubyCoin
   autoload :Schema
   autoload :Validation
   autoload :Social
+  autoload :Wallet
   autoload :Application
+  autoload :Bank
+  autoload :Node
 end

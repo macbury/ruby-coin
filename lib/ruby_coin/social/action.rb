@@ -16,10 +16,12 @@ module RubyCoin
       def self.build(options)
         options.deep_symbolize_keys!
         action = options[:action]
-        if action == 'coinbase'
+        if action == 'transaction'
+          Transaction.new(options)
+        elsif action == 'coinbase'
           Coinbase.new(options)
         else
-          throw "Unsuported action: #{options.inspect}"
+          raise Errors::NotSupportedAction, "Unsuported action: #{options.inspect}"
         end
       end
     end

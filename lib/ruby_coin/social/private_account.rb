@@ -20,7 +20,7 @@ module RubyCoin
       # Sign data with account key
       # @return [String] signature of data
       def sign(data)
-        key.dsa_sign_asn1(data)
+        key.dsa_sign_asn1(data).unpack('H*')[0]
       end
     end
   end

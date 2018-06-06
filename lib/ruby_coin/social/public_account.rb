@@ -4,7 +4,7 @@ module RubyCoin
   module Social
     class PublicAccount < Dry::Struct
       transform_keys(&:to_sym)
-      
+
       attribute :public_key, Types::PublicKey
 
       # Check if data was created by this account
@@ -12,7 +12,7 @@ module RubyCoin
       # @param data [String] data to verify
       # @return [Boolean]
       def verify(signature, data)
-        Crypto::Keys.verify(signature, public_key, data)
+        Crypto::Keys.verify([signature].pack('H*'), public_key, data)
       end
 
       # Address of this account. Unique for whole network

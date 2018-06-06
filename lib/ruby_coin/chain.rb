@@ -16,6 +16,12 @@ module RubyCoin
       end
     end
 
+    def each_confirmed_from_index(index)
+      blocks.where(Sequel[:index] <= confirmed_index).where(Sequel[:index] > index).order(:index).paged_each do |record|
+        yield build_block(record)
+      end
+    end
+
     def <<(block)
       record = block.to_h.except(:updates)
       record[:actions] = record[:actions].to_json
@@ -23,15 +29,22 @@ module RubyCoin
     end
 
     def last
-      build_block(blocks.order(:index).last)
+      block = blocks.order(:index).last
+      build_block(block) if block
     end
 
     def find_by_index(index)
-
+      record = blocks.where(index: index).first
+      build_block(record) if record
     end
 
     def find_by_hash(hash)
+      record = blocks.where(hash: hash).first
+      build_block(record) if record
+    end
 
+    def [](hash_or_index)
+      find_by_hash(hash_or_index) || find_by_index(hash_or_index)
     end
 
     def size
@@ -52,6 +65,12 @@ module RubyCoin
     # @return [Integer]
     def next_index
       max_index + 1
+    end
+
+    # To which index, blocks actions are confirmed
+    # @return [Integer]
+    def confirmed_index
+      max_index - Block::CONFIRMATION_COUNT
     end
 
     private
