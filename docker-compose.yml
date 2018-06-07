@@ -1,12 +1,32 @@
-node1:
-  build: .
-  ports:
-    - 7001:7000
-node2:
-  build: .
-  ports:
-    - 7002:7000
-node3:
-  build: .
-  ports:
-    - 7003:7000
+version: '3'
+services:
+  node1:
+    build: .
+    ports:
+      - 7001:7000
+    command: 'bin/ruby-coin node --genesis --recipient=6GduhrfVyy1HczXWRCmvVByZiNp39JaMd'
+  node2:
+    build: .
+    ports:
+      - 7002:7000
+    command: 'bin/ruby-coin node --genesis --recipient=6GduhrfVyy1HczXWRCmvVByZiNp39JaMs'
+  node3:
+    build: .
+    ports:
+      - 7003:7000
+    command: 'bin/ruby-coin node --genesis --recipient=6GduhrfVyy1HczXWRCmvVByZiNp39JaMs'
+  node4:
+    build: .
+    ports:
+      - 7004:7000
+    command: 'bin/ruby-coin node --genesis --recipient=6GduhrfVyy1HczXWRCmvVByZiNp39JaMs'
+  node5:
+    build: .
+    ports:
+      - 7005:7000
+    command: 'bin/ruby-coin node --genesis --recipient=6GduhrfVyy1HczXWRCmvVByZiNp39JaMs'
+  node6:
+    build: .
+    ports:
+      - 7006:7000
+    command: 'bin/ruby-coin node --genesis --recipient=6GduhrfVyy1HczXWRCmvVByZiNp39JaMs'

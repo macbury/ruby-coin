@@ -4,7 +4,7 @@ module RubyCoin
   module Node
     class Client
       include HTTParty
-      raise_on [404, 500]
+      raise_on [404, 500, 400]
       headers 'Content-Type' => 'application/json'
 
       def initialize(uri)
@@ -14,7 +14,7 @@ module RubyCoin
       def ping?
         resp = self.class.get("#{@uri}/")
         Schema::Alive.call(resp).success?
-      rescue HTTParty::ResponseError, Errno::ECONNREFUSED
+      rescue HTTParty::ResponseError, Errno::ECONNREFUSED, Errno::EADDRNOTAVAIL
         false
       end
 

@@ -6,6 +6,11 @@ module RubyCoin
     extend Dry::Initializer
     option :database
 
+    def find_action(action_hash)
+      record = actions.where(hash: action_hash).first
+      Social::Action.build(record) if record
+    end
+
     def clear
       blocks.truncate
     end
@@ -23,9 +28,13 @@ module RubyCoin
     end
 
     def <<(block)
-      record = block.to_h.except(:updates)
-      record[:actions] = record[:actions].to_json
+      record = block.to_h.except(:actions)
       blocks.insert(record)
+      database.transaction do
+        block.actions.each do |action|
+          actions.insert(hash: action.hash, content: action.to_h.to_json, block_hash: block.hash, type: action.action)
+        end
+      end
     end
 
     def last
@@ -75,9 +84,9 @@ module RubyCoin
 
     private
 
-    def build_block(record)
-      record[:actions] = JSON.parse(record[:actions])
-      Block.new(record)
+    def build_block(block_record)
+      block_record[:actions] = actions.where(block_hash: block_record[:hash]).map { |action| JSON.parse(action[:content]) }
+      Block.new(block_record)
     end
 
     def create_tables
@@ -85,10 +94,16 @@ module RubyCoin
         primary_key :index
         String :hash, uniq: true, null: false
         String :prev_hash, null: false
-        String :actions, null: false
-        Integer :nonce, null: false
         Time :time, null: false
-        String
+        Integer :nonce, null: false
+      end
+
+      database.create_table? :actions do
+        String :hash, uniq: false, null: false, primary_key: true
+        String :block_hash, null: false
+        String :type, null: false
+
+        String :content, null: false, text: true
       end
     end
 
@@ -96,6 +111,13 @@ module RubyCoin
       @blocks ||= begin
         create_tables
         database[:blocks]
+      end
+    end
+
+    def actions
+      @actions ||= begin
+        create_tables
+        database[:actions]
       end
     end
   end

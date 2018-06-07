@@ -26,6 +26,8 @@ module RubyCoin
     # @return [Social::Actions] list of actions performed in network
     attribute :actions, Types::Actions
 
+    # Hash identificator of block
+    # @return [String]
     def hash
       attributes[:hash]
     end
@@ -47,7 +49,7 @@ module RubyCoin
     # @param index [Integer] block index
     # @return [Integer] difficlulty for PoW
     def self.difficulty_for(index)
-      5 #TODO: add some logic here
+      6 #TODO: add some logic here
     end
   end
 end

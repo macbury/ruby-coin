@@ -12,5 +12,6 @@ module RubyCoin
     autoload :Transaction
     autoload :Coinbase
     autoload :Errors
+    autoload :PendingActions
   end
 end

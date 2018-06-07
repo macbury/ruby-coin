@@ -12,6 +12,10 @@ module RubyCoin
       end
     end
 
+    def balance_for_address()
+
+    end
+
     # Add new account to wallet
     # @return [Social::PrivateAccount]
     def <<(private_account)

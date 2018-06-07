@@ -5,7 +5,7 @@ module RubyCoin
     Alive = Dry::Validation.Schema do
       required(:type).filled(:str?)
       required(:time).filled(:str?)
-      optional(:index).maybe(:int?, gte?: 0)
+      optional(:index).maybe(:int?, gt?: -1)
       optional(:hash).maybe(:str?)
       optional(:prev_hash).maybe(:str?)
     end

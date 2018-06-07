@@ -16,6 +16,7 @@ gem 'terminal-table'
 gem 'ruby-progressbar'
 gem 'rack-app'
 gem 'puma'
+gem 'concurrent-ruby'
 gem 'httparty'
 
 group :development do

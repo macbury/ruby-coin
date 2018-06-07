@@ -6,6 +6,9 @@ module RubyCoin
       extend Dry::Initializer
       option :hasher, default: -> { Crypto::Hasher.new }
 
+      # Check if block chain is valid
+      # @param block [Chain]
+      # @return [Boolean]
       def valid?(chain)
         prev_block = nil
         chain.each do |block|

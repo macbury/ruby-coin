@@ -16,6 +16,15 @@ module RubyCoin
       super
       Sequel.default_timezone = :utc
       @database = Sequel.connect(database_url)
+      #@database.logger = logger
+    end
+
+    def logger
+      @logger ||= Logger.new(STDOUT)
+    end
+
+    def pending_actions
+      @pending_actions ||= Social::PendingActions.new(chain: chain)
     end
 
     def chain

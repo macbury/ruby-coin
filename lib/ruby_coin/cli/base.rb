@@ -10,6 +10,10 @@ module RubyCoin
         application.chain
       end
 
+      def logger
+        application.logger
+      end
+
       def bank
         application.bank
       end

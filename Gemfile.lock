@@ -104,6 +104,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   base58
+  concurrent-ruby
   daemons
   dry-events
   dry-initializer

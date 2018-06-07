@@ -22,7 +22,8 @@ RSpec.describe RubyCoin::Block do
             action: 'coinbase',
             hash: 'c0e3da841d280cefef848c781a9adab307ab443b8a67018acb318f448e5532eb',
             amount: 5,
-            recipient: '2pVkkGy97yXfuyNhWA3qEC6Yt9yJ3grMd'
+            recipient: '2pVkkGy97yXfuyNhWA3qEC6Yt9yJ3grMd',
+            time: Time.now.utc.to_s
           }
         ],
         nonce: 1,

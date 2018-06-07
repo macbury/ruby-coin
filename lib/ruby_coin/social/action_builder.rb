@@ -26,9 +26,10 @@ module RubyCoin
       def build(data)
         @data = data.clone.deep_symbolize_keys
         @data[:id] ||= SecureRandom.hex(3)
+        @data[:time] ||= Time.now.utc
         @data[:sender] = private_account.public_key if private_account
         @data[:hash] = Digest::SHA256.hexdigest(ordered_values(@data))
-        @data[:signature] = private_account.sign(ordered_values(data.except(:sender))) if private_account
+        @data[:signature] = private_account.sign(ordered_values(@data)) if private_account
         @data
       end
 
