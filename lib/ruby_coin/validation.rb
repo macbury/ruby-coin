@@ -6,5 +6,7 @@ module RubyCoin
 
     autoload :Block
     autoload :Chain
+    autoload :Action
+    autoload :Errors
   end
 end

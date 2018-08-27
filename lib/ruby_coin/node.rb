@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 module RubyCoin
-  module Ledger
+  module Node
     extend ActiveSupport::Autoload
 
-    autoload :Wallet
+    autoload :Api
+    autoload :Roster
+    autoload :Client
   end
 end

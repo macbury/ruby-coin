@@ -8,6 +8,7 @@ require 'openssl'
 Bundler.require(:default, :development)
 require 'active_support'
 require 'active_support/hash_with_indifferent_access'
+require 'active_support/core_ext/hash'
 
 module RubyCoin
   extend ActiveSupport::Autoload
@@ -19,6 +20,9 @@ module RubyCoin
   autoload :Miner
   autoload :Schema
   autoload :Validation
-
-  autoload :Ledger
+  autoload :Social
+  autoload :Wallet
+  autoload :Application
+  autoload :Bank
+  autoload :Node
 end

@@ -5,10 +5,35 @@ RSpec.describe RubyCoin::Block do
     subject { described_class }
     it { is_expected.to have_attribute(:index) }
     it { is_expected.to have_attribute(:hash) }
-    it { is_expected.to have_attribute(:data) }
     it { is_expected.to have_attribute(:prev_hash) }
     it { is_expected.to have_attribute(:time) }
     it { is_expected.to have_attribute(:nonce) }
+    it { is_expected.to have_attribute(:actions) }
+  end
+
+  describe '#new' do
+    it 'load coinbasese' do
+      block = RubyCoin::Block.new(
+        hash: 'a' * 64,
+        prev_hash: 'b' * 64,
+        actions: [
+          {
+            id: '9391dd',
+            action: 'coinbase',
+            hash: 'c0e3da841d280cefef848c781a9adab307ab443b8a67018acb318f448e5532eb',
+            amount: 5,
+            recipient: '2pVkkGy97yXfuyNhWA3qEC6Yt9yJ3grMd',
+            time: Time.now.utc.to_s
+          }
+        ],
+        nonce: 1,
+        index: 20,
+        time: Time.now
+      )
+
+      expect(block.actions).not_to be_empty
+      expect(block.actions[0]).to be_kind_of(RubyCoin::Social::Coinbase)
+    end
   end
 
   describe '#hash' do
@@ -16,7 +41,7 @@ RSpec.describe RubyCoin::Block do
       block = RubyCoin::Block.new(
         hash: 'a' * 64,
         prev_hash: 'b' * 64,
-        data: { invalid: true },
+        actions: [],
         nonce: 1,
         index: 20,
         time: Time.now
@@ -31,7 +56,7 @@ RSpec.describe RubyCoin::Block do
       described_class.new(
         index: 1,
         prev_hash: '0' * 64,
-        data: {},
+        actions: [],
         time: Time.local(2018, 5, 11, 6, 10, 45).utc,
         hash: 'a' * 64,
         nonce: 12
@@ -45,7 +70,7 @@ RSpec.describe RubyCoin::Block do
         {
           index: 2,
           prev_hash: 'a' * 64,
-          data: {},
+          actions: [],
           time: Time.local(2018, 5, 11, 6, 10, 55).utc,
           hash: 'b' * 64,
           nonce: 12
@@ -59,7 +84,7 @@ RSpec.describe RubyCoin::Block do
         {
           index: 1,
           prev_hash: 'a' * 64,
-          data: {},
+          actions: [],
           time: Time.local(2018, 5, 11, 6, 10, 55).utc,
           hash: 'b' * 64,
           nonce: 12
@@ -73,7 +98,7 @@ RSpec.describe RubyCoin::Block do
         {
           index: 2,
           prev_hash: 'x' * 64,
-          data: {},
+          actions: [],
           time: Time.local(2018, 5, 11, 6, 10, 55).utc,
           hash: 'b' * 64,
           nonce: 12
@@ -87,7 +112,7 @@ RSpec.describe RubyCoin::Block do
         {
           index: 2,
           prev_hash: 'a' * 64,
-          data: {},
+          actions: [],
           time: Time.local(2010, 5, 11, 6, 10, 55).utc,
           hash: 'b' * 64,
           nonce: 12

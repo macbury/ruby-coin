@@ -3,15 +3,21 @@
 source 'http://rubygems.org'
 
 gem 'activesupport'
+gem 'base58'
 gem 'daemons'
 gem 'dry-initializer'
 gem 'dry-struct'
+gem 'dry-events'
 gem 'dry-validation'
 gem 'hanami-cli'
 gem 'sequel'
 gem 'sqlite3'
 gem 'terminal-table'
 gem 'ruby-progressbar'
+gem 'rack-app'
+gem 'puma'
+gem 'concurrent-ruby'
+gem 'httparty'
 
 group :development do
   gem 'pry'
